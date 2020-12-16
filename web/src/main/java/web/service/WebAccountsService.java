@@ -1,10 +1,11 @@
 package web.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import web.model.Account;
@@ -42,6 +43,7 @@ public class WebAccountsService {
       + restTemplate.getRequestFactory());
   }
 
+  @HystrixCommand(fallbackMethod = "reliableFindByNumber")
   public Account findByNumber(String accountNumber) {
 
     logger.info("findByNumber() invoked: for " + accountNumber);
@@ -49,6 +51,14 @@ public class WebAccountsService {
       Account.class, accountNumber);
   }
 
+  public Account reliableFindByNumber(String accountNumber) {
+    Account account = new Account();
+    account.setNumber(accountNumber);
+
+    return account;
+  }
+
+  @HystrixCommand(fallbackMethod = "reliableByOwnerContains")
   public List<Account> byOwnerContains(String name) {
     logger.info("byOwnerContains() invoked:  for " + name);
     Account[] accounts = null;
@@ -65,5 +75,19 @@ public class WebAccountsService {
     } else {
       return Arrays.asList(accounts);
     }
+  }
+
+  public List<Account> reliableByOwnerContains(String name) {
+    List<Account> accounts = new ArrayList<>();
+    Account a1 = new Account();
+    Account a2 = new Account();
+
+    a1.setOwner(name);
+    a2.setOwner(name + " Javierre");
+
+    accounts.add(0, a1);
+    accounts.add(1, a2);
+
+    return accounts;
   }
 }
