@@ -1,4 +1,4 @@
-#The two microservices `accounts (2222)` and `web` are running and registered (two terminals, logs screenshots).
+# The two microservices `accounts (2222)` and `web` are running and registered (two terminals, logs screenshots).
 
 Left:
 ```
@@ -12,7 +12,7 @@ gradle :web:bootRun
 
 ![alt text](1.png)
 
-#The service registration service has these two microservices registered (a third terminal, dashboard screenshots)
+# The service registration service has these two microservices registered (a third terminal, dashboard screenshots)
 
 Left:
 ```
@@ -35,7 +35,7 @@ gradle :web:bootRun
 ![alt text](3.png)
 
 
-#A second `accounts` microservice instance is started and will use the port 4444. This second `accounts (4444)` is also registered (a fourth terminal, log screenshots).
+# A second `accounts` microservice instance is started and will use the port 4444. This second `accounts (4444)` is also registered (a fourth terminal, log screenshots).
 
 Changing port of microservice "accounts" in its application.yml
 
@@ -48,7 +48,7 @@ gradle :accounts:bootRun
 ![alt text](5.png)
 
 
-#What happens when you kill the microservice `accounts (2222)` and do requests to `web`?  Can the web service provide information about the accounts again? Why?
+# What happens when you kill the microservice `accounts (2222)` and do requests to `web`?  Can the web service provide information about the accounts again? Why?
 
 SIGINT signal to accounts (2222): right terminal... Immediately, left terminal (registration) notices that accounts (2222) is down.
 
